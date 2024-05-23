@@ -1,0 +1,44 @@
+[project]
+name = "sdmc_tools"
+version = "0.0.01"
+authors = [
+  { name="Beatrix Haddock", email="beatrix.haddock@gmail.com" },
+]
+description = "Helper utilities for SDMC ad-hoc data processing requests."
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["docutils", "requires <= 0.4"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/beatrixh/sdmc-tools"
+
+[build-system]
+requires = [
+  "setuptools",
+  "pandas",
+  "numpy",
+  "typing",
+  "datetime",
+  "openpyxl",
+  "xlsxwriter"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
+
+[project.scripts]
+gen-readme = "sdmc_tools.generate_README:gen_README"
+regen-readme = "sdmc_tools.regenerate_README:regen_README"
+gen-data-dict = "sdmc_tools.generate_dict:gen_data_dict"
