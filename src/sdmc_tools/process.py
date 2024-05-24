@@ -13,6 +13,7 @@ def standard_processing(
     metadata_dict: dict,
     ldms: pd.DataFrame,
     ldms_usecols: List[str] = constants.STANDARD_COLS,
+    cols_to_lower: bool = True,
     ) -> pd.DataFrame:
     """
     INPUTS
@@ -24,11 +25,12 @@ def standard_processing(
     metadata_dict: dict; keys are column names, values are column values
     ldms: pd.DataFrame, should contain guspec + all other desired vars to merge
     ldms_usecols: columns to merge on from ldms.
+    col_to_lower: whether or not to convert columns "From This" "to_this" format
 
     OUTPUTS
     -------
     data formatted with the following merged on:
-    - ldms columns
+    - ldms columns (with standard renaming)
     - metadata from "metadata_dict"
     - sdmc processing info
 
@@ -56,8 +58,12 @@ def standard_processing(
         dh.processed_data = dh.processed_data.drop(columns=guspec_col)
 
     reorder = dh.reorder_cols(dh.processed_data.columns)
+    dh.processed_data = dh.processed_data[reorder]
 
-    return dh.processed_data[reorder]
+    if cols_to_lower:
+        dh.processed_data.columns = [i.lower().replace(" ","_") for i in dh.processed_data.columns]
+
+    return dh.processed_data
 
 
 class DataHandler:
