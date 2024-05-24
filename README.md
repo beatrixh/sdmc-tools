@@ -17,8 +17,8 @@ The package is hosted on Pypi and can be installed using pip: `pip install sdmc-
   - time
 
 ## Usage
-
 ### Data processing
+---
 Python functions and constants for data processing / prep.
 
 ```
@@ -67,6 +67,7 @@ outputs = sdmc.standard_processing(
 See https://github.com/beatrixh/sdmc-tools/blob/main/src/sdmc_tools/constants.py for the list of constants accessible.
 
 ### Data dictionary creation
+---
 This is a command line tool; it creates a data dictionary for a set of processed outputs.
 
 `gen-data-dict` takes two positional arguments: 
@@ -83,6 +84,7 @@ If the dictionary does not already exist in the directory where the outputs live
 If a dictionary of the given name already exists, it will be updated to reflect the variables in the output sheet.
 
 ### README creation
+---
 This is a command line tool; given a set of processed outputs, it creates a .md file with documentation for how the outputs were created, and a correspdonding .html of the compiled .md.
 
 `gen-readme` takes three positional arguments:
