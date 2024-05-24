@@ -20,14 +20,24 @@ The package is hosted on Pypi and can be installed using pip: `pip install sdmc-
 
 ### Data processing
 Python functions and constants for data processing / prep.
+
 ```
 import pandas as pd
 import sdmc_tools.process as sdmc # this contains the main data processing utilities
 import sdmc_tools.constants as constants # this contains useful constants.
 
 ldms = pd.read_csv(constants.LDMS_PATH_HVTN, usecols=constants.STANDARD_COLS) #read in ldms
-ldms = ldms.loc[ldms.lstudy==PROTOCOL] #subset ldms to the protocol of interest
+ldms = ldms.loc[ldms.lstudy==302.] #subset ldms to the protocol of interest
+```
 
+*ldms*
+
+![image](https://github.com/beatrixh/sdmc-tools/assets/40446299/17cfefaf-4332-471d-bee1-3bb2a1663b5e)
+
+*input_data*
+
+![image](https://github.com/beatrixh/sdmc-tools/assets/40446299/dbcc52df-03fb-4842-94f8-ee2a1624d717)
+```
 hand_appended_metadata = {
     'network': 'HVTN',
     'upload_lab_id': 'N4',
@@ -38,7 +48,7 @@ hand_appended_metadata = {
 }
 
 outputs = sdmc.standard_processing(
-    input_data = data, #a pandas dataframe containing input data
+    input_data = input_data, #a pandas dataframe containing input data
     input_data_path="/path/to/input_data.xlsx", #the path to the original input data
     guspec_col='guspec', #the name of the column containing guspecs within the input data
     network='hvtn', #the relevant network ('hvtn' or 'covpn')
@@ -48,6 +58,12 @@ outputs = sdmc.standard_processing(
 
 ## TODO: include notes on what processing is included in this function.
 ```
+*outputs*
+
+![image](https://github.com/beatrixh/sdmc-tools/assets/40446299/7c06801c-7c45-4cbe-b4d4-6be6f172750d)
+![image](https://github.com/beatrixh/sdmc-tools/assets/40446299/c18fb04e-e360-49c1-830a-eb94010dab33)
+
+
 See https://github.com/beatrixh/sdmc-tools/blob/main/src/sdmc_tools/constants.py for the list of constants accessible.
 
 ### Data dictionary creation
