@@ -21,6 +21,33 @@ The package is hosted on Pypi and can be installed using pip: `pip install sdmc-
 ---
 Python functions and constants for data processing / prep.
 
+The primary function is `standard_processing`:
+```
+import sdmc_tools.process as sdmc
+
+outputs = sdmc.standard_processing(
+    input_data = input_data,
+    input_data_path="/path/to/input_data.xlsx", 
+    guspec_col='guspec', 
+    network='hvtn', 
+    metadata_dict=hand_appended_metadata, 
+    ldms=ldms 
+)
+```
+To see the function signature and documentation, you can run `? sdmc.standard_processing` in a Python interpreter. Given `input_data`, the function does the following:
+- merges on ldms, renames columns with standard labels
+- adds a spectype column
+- adds a drawdt column, drops drawdm, drawdd, drawdy
+- for each (key,value) in the metadata dict creates a column of the name 'key' with values 'value'
+- standardizes the 'ptid' and 'protocol' columns to be int-formatted strings
+- merges on columns pertaining to sdmc processing
+- rearranges columns into a standardized order
+- converts column names "From This" -> "to_this" format
+
+See https://github.com/beatrixh/sdmc-tools/blob/main/src/sdmc_tools/constants.py for the list of constants accessible.
+
+A usage example is included below.
+
 ```
 import pandas as pd
 import sdmc_tools.process as sdmc # this contains the main data processing utilities
@@ -60,18 +87,6 @@ outputs = sdmc.standard_processing(
 
 ![image](https://github.com/beatrixh/sdmc-tools/assets/40446299/7c06801c-7c45-4cbe-b4d4-6be6f172750d)
 ![image](https://github.com/beatrixh/sdmc-tools/assets/40446299/c18fb04e-e360-49c1-830a-eb94010dab33)
-
-To see the function signature and documentation, you can run `? sdmc.standard_processing` in a Python interpreter. The function does the following:
-- merges on ldms, renames columns with standard labels
-- adds a spectype column
-- adds a drawdt column, drops drawdm, drawdd, drawdy
-- for each (key,value) in the metadata dict creates a column of the name 'key' with values 'value'
-- standardizes the 'ptid' and 'protocol' columns to be int-formatted strings
-- merges on columns pertaining to sdmc processing
-- rearranges columns into a standardized order
-- converts column names "From This" -> "to_this" format
-
-See https://github.com/beatrixh/sdmc-tools/blob/main/src/sdmc_tools/constants.py for the list of constants accessible.
 
 ### Data dictionary creation
 ---
