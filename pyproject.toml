@@ -1,6 +1,6 @@
 [project]
 name = "sdmc_tools"
-version = "0.0.01"
+version = "0.0.02"
 authors = [
   { name="Beatrix Haddock", email="beatrix.haddock@gmail.com" },
 ]

@@ -1,3 +1,6 @@
+import os
+import pandas as pd
+
 LDMS_PATH_HVTN = '/data/pipelines/fstrf-ldms-postimport/hvtn/hvtn.csdb.csv'
 LDMS_PATH_COVPN = '/data/pipelines/fstrf-ldms-postimport/covpn/covpn.csdb.csv'
 FAKE_LDMS = '/networks/vtn/lab/SDMC_labscience/operations/documents/templates/assay/template_testing/process_testing/generated_ldms.csv'
@@ -34,6 +37,19 @@ LDMS_RELABEL_DICT = {
     'primstr': 'spec_primary',
     'addstr': 'spec_additive',
     'dervstr': 'spec_derivative',
+}
+
+LDMS_DTYPE_MAP = {
+  'txtpid': 'string',
+  'drawdm': 'Int64',
+  'drawdd': 'Int64',
+  'drawdy': 'Int64',
+  'vidval': 'Float64',
+  'lstudy': 'Float64',
+  'guspec': 'string',
+  'primstr': 'string',
+  'addstr': 'string',
+  'dervstr': 'string',
 }
 
 SPEC_TYPE_DEFN_MAP = {
@@ -91,3 +107,5 @@ STD_POSTFACE_COLS = [
     'sdmc_data_receipt_datetime',
     'input_file_name'
 ]
+
+LUT_LOG = pd.read_csv(os.path.dirname(__file__) + "/lut_table.txt", sep="\t")

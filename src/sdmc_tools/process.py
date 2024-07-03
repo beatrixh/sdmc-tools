@@ -7,7 +7,7 @@ from sdmc_tools import constants
 
 def standard_processing(
     input_data: pd.DataFrame,
-    input_data_path: str,
+    input_data_path: Union[str, List[str]],
     guspec_col: str,
     network: str,
     metadata_dict: dict,
@@ -19,7 +19,7 @@ def standard_processing(
     INPUTS
     ------
     input_data: pd.DataFrame, long/desired format,
-    input_data_path: str, filepath to the input data
+    input_data_path: str, filepath to the input data, or list of str
     guspec_col: str, name of the global identifier (guspec) in input_data
     network: str, either "hvtn" or "covpn"
     metadata_dict: dict; keys are column names, values are column values
@@ -72,7 +72,7 @@ class DataHandler:
         input_data: pd.DataFrame,
         guspec_col: str,
         network: str,
-        input_data_path: str = None,
+        input_data_path: Union[str, List[str]] = None,
     ):
         if not guspec_col in input_data.columns:
             raise Exception(f"'{guspec}' must be a column in input_data")
@@ -206,7 +206,7 @@ class DataHandler:
         metadata = pd.DataFrame({i: [metadata[i]] for i in metadata.keys()})
         self.processed_data = self.processed_data.merge(metadata, how = 'cross')
 
-    def add_sdmc_processing_info(self, input_data_path: str):
+    def add_sdmc_processing_info(self, input_data_path: Union[str, list]):
         """
         Adds sdmc_processing_datetime, sdmc_data_receipt_datetime, and
         input_file_name cols to self.processed_data
@@ -223,17 +223,26 @@ class DataHandler:
         if input_data_path:
             self.input_data_path = input_data_path
 
-        if not os.path.exists(self.input_data_path):
-            raise Exception(f"{self.input_data_path} not a valid filepath.")
+        input_data_path = self.input_data_path
+
+        if not isinstance(input_data_path, list):
+            input_data_path = [input_data_path]
+        else:
+            print(f"Note: using timestamp from first input_data_path provided, {input_data_path[0]}")
+
+        for i in input_data_path:
+            if not os.path.exists(i):
+                print(f"WARNING: {i} not a valid filepath.")
+        fname = ", ".join(np.unique([i.split("/")[-1] for i in input_data_path]))
 
         sdmc_processing_datetime = datetime.datetime.now().replace(microsecond=0).isoformat()
-        data_receipt_datetime = datetime.datetime.fromtimestamp(os.path.getmtime(self.input_data_path)).replace(microsecond=0).isoformat()
+        data_receipt_datetime = datetime.datetime.fromtimestamp(os.path.getmtime(input_data_path[0])).replace(microsecond=0).isoformat()
 
         sdmc_metadata = pd.DataFrame({
             "sdmc_processing_datetime": [sdmc_processing_datetime],
             # "sdmc_processing_version": [1.0],
             "sdmc_data_receipt_datetime": [data_receipt_datetime],
-            "input_file_name": [input_data_path.split("/")[-1]],
+            "input_file_name": [fname],
         })
 
         # if these columns are already in processed_data, drop and replace
