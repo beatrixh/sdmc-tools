@@ -70,7 +70,7 @@ def gen_README():
     OUTPUT_DIR_FILES = list(np.unique([
         f[2:] if f[:2]=="~$" else f for f in OUTPUT_DIR_FILES
     ]))
-    output_savepath = [o for o in OUTPUT_DIR_FILES if "process" in o and ".txt" in o]
+    output_savepath = [o for o in OUTPUT_DIR_FILES if "process" in o.lower() and ".txt" in o]
     if len(output_savepath)>0:
         if len(output_savepath)>1:
             tmp = output_savepath[0]
