@@ -82,7 +82,7 @@ def gen_README():
 
         VAR_DICT["@OUTPUT-SAVEPATH"] = output_savepath
     elif len(output_savepath)==0:
-        print(f"/studies folder missing outputs: {OUTPUT_DIR}, {yamldict["output_prefix"]}")
+        print(f"/studies folder missing outputs: {OUTPUT_DIR}, {yamldict['output_prefix']}")
 
     ## LDMS-PATH ------------------------------------------------------------ ##
     if isinstance(output_savepath, list):
