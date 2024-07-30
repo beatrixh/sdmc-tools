@@ -75,7 +75,7 @@ class DataHandler:
         input_data_path: Union[str, List[str]] = None,
     ):
         if not guspec_col in input_data.columns:
-            raise Exception(f"'{guspec}' must be a column in input_data")
+            raise Exception(f"'{guspec_col}' must be a column in input_data")
         if network not in ["hvtn", "covpn"]:
             raise ValueError("network must be 'hvtn' or 'covpn'")
         self.input_data = input_data
